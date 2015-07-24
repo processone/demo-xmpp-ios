@@ -81,166 +81,159 @@ From now on you will have to open the xcworkspace file
 		[self.xmppRoster addDelegate:self delegateQueue:dispatch_get_main_queue()];
 	}
 	```
-	And call it in `- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions`
+	And call it in
+	```Objective-C
+	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+	```
 1. Add the following methods to the private interface:
-```Objective-C
-@interface AppDelegate ()
+	```Objective-C
+	@interface AppDelegate ()
 
-- (void)setupStream;
-- (void)goOnline;
-- (void)goOffline;
-- (BOOL)connect;
-- (void)disconnect;
+	- (void)setupStream;
+	- (void)goOnline;
+	- (void)goOffline;
+	- (BOOL)connect;
+	- (void)disconnect;
 
-@end
-```
+	@end
+	```
 1. Implement those methods:
-```Objective-C
-- (void)goOnline {
-XMPPPresence *presence = [XMPPPresence presence]; // type="available" is implicit
+	```Objective-C
+	- (void)goOnline {
+		XMPPPresence *presence = [XMPPPresence presence]; // type="available" is implicit
 
-NSString *domain = [self.xmppStream.myJID domain];
+		NSString *domain = [self.xmppStream.myJID domain];
 
-//Google set their presence priority to 24, so we do the same to be compatible.
+		//Google set their presence priority to 24, so we do the same to be compatible.
 
-if([domain isEqualToString:@"gmail.com"]
-|| [domain isEqualToString:@"gtalk.com"]
-|| [domain isEqualToString:@"talk.google.com"])
-{
-NSXMLElement *priority = [NSXMLElement elementWithName:@"priority" stringValue:@"24"];
-[presence addChild:priority];
-}
+		if([domain isEqualToString:@"gmail.com"] || [domain isEqualToString:@"gtalk.com"] || [domain isEqualToString:@"talk.google.com"]) {
+			NSXMLElement *priority = [NSXMLElement elementWithName:@"priority" stringValue:@"24"]; 
+			[presence addChild:priority];
+		}
 
-[[self xmppStream] sendElement:presence];
-}
+		[[self xmppStream] sendElement:presence];
+	}
 
-- (void)goOffline {
-XMPPPresence *presence = [XMPPPresence presenceWithType:@"unavailable"];
-[[self xmppStream] sendElement:presence];
-}
+	- (void)goOffline {
+		XMPPPresence *presence = [XMPPPresence presenceWithType:@"unavailable"];
+		[[self xmppStream] sendElement:presence];
+	}
 
-- (BOOL)connect {
+	- (BOOL)connect {
 
-if (!self.xmppStream.isConnected) {
+		if (!self.xmppStream.isConnected) {
 
-NSString *jabberID = [[NSUserDefaults standardUserDefaults] stringForKey:@"userID"];
-NSString *myPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"userPassword"];
+			NSString *jabberID = [[NSUserDefaults standardUserDefaults] stringForKey:@"userID"];
+			NSString *myPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"userPassword"];
 
-if (![self.xmppStream isDisconnected]) {
-return YES;
-}
+			if (![self.xmppStream isDisconnected]) {
+				return YES;
+			}
 
-if (jabberID == nil || myPassword == nil) {
-return NO;
-}
+			if (jabberID == nil || myPassword == nil) {
+				return NO;
+			}
 
-[self.xmppStream setMyJID:[XMPPJID jidWithString:jabberID]];
+			[self.xmppStream setMyJID:[XMPPJID jidWithString:jabberID]];
 
-NSError *error = nil;
-if (![self.xmppStream connectWithTimeout:XMPPStreamTimeoutNone error:&error])
-{
-NSLog(@"Connection error");
-} else {
-NSLog(@"Connection succes");
-}
+			NSError *error = nil;
+			if (![self.xmppStream connectWithTimeout:XMPPStreamTimeoutNone error:&error]) {
+				NSLog(@"Connection error"); 
+			} else {
+				NSLog(@"Connection succes");
+			}
 
-return YES;
-} else {
-return YES;
-}
-}
+			return YES;
+		} else {
+			return YES;
+		}
+	}
 
-- (void)disconnect {
+	- (void)disconnect {
 
-[self goOffline];
-[self.xmppStream disconnect];
-}
-```
-1. Call `[self connect]` in `- (void)applicationDidBecomeActive:(UIApplication *)application` and `[self disconnect]` in `- (void)applicationWillResignActive:(UIApplication *)application`
+		[self goOffline];
+		[self.xmppStream disconnect];
+	}
+	```
+1. Call `[self connect]` in ```Objective-C - (void)applicationDidBecomeActive:(UIApplication *)application``` and `[self disconnect]` in ```Objective-C - (void)applicationWillResignActive:(UIApplication *)application```
 1. Now the last but not the least, implement the xmpp delegates:
-```Objective-C
-- (void)xmppStreamDidConnect:(XMPPStream *)sender {
+	```Objective-C
+	- (void)xmppStreamDidConnect:(XMPPStream *)sender {
 
-NSError *error = nil;
-if ([[self xmppStream] authenticateWithPassword:[[NSUserDefaults standardUserDefaults] stringForKey:@"userPassword"] error:&error]) {
-NSLog(@"did authenticate");
-} else {
-NSLog(@"did not authenticate %@", error);
-}
-}
+		NSError *error = nil;
+		if ([[self xmppStream] authenticateWithPassword:[[NSUserDefaults standardUserDefaults] stringForKey:@"userPassword"] error:&error]) {
+			NSLog(@"did authenticate");
+		} else {
+			NSLog(@"did not authenticate %@", error);
+		}
+	}
 
-- (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
+	- (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
 
-[self goOnline];
-}
+		[self goOnline];
+	}
 
-- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq {
-return NO;
-}
+	- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq {
+		return NO;
+	}
 
-- (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message {
-UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Sucess !" message:[NSString stringWithFormat:@"%@", message] preferredStyle:UIAlertControllerStyleAlert];
-[alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+	- (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message {
+		UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Sucess !" message:[NSString stringWithFormat:@"%@", message] preferredStyle:UIAlertControllerStyleAlert];
+		[alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
-}]];
+		}]];
 
-[self.window.rootViewController presentViewController:alertController animated:true completion:nil];
+		[self.window.rootViewController presentViewController:alertController animated:true completion:nil];
 
-NSLog(@"message received %@", message);
-}
+		NSLog(@"message received %@", message);
+	}
 
-- (void)xmppStream:(XMPPStream *)sender didSendMessage:(XMPPMessage *)message {
-NSLog(@"did send message");
-UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Sucess !" message:@"Message succesfully sent !" preferredStyle:UIAlertControllerStyleAlert];
-[alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+	- (void)xmppStream:(XMPPStream *)sender didSendMessage:(XMPPMessage *)message {
+		NSLog(@"did send message");
+		UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Sucess !" message:@"Message succesfully sent !" preferredStyle:UIAlertControllerStyleAlert];
+		[alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
-}]];
+		}]];
 
-[self.window.rootViewController.presentedViewController presentViewController:alertController animated:true completion:nil];
-}
+		[self.window.rootViewController.presentedViewController presentViewController:alertController animated:true completion:nil];
+	}
 
-- (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence {
-NSLog(@"did receive presence");
-NSString *presenceType = [presence type]; // online/offline
-NSString *myUsername = [[sender myJID] user];
-NSString *presenceFromUser = [[presence from] user];
+	- (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence {
+		NSLog(@"did receive presence");
+		NSString *presenceType = [presence type]; // online/offline
+		NSString *myUsername = [[sender myJID] user];
+		NSString *presenceFromUser = [[presence from] user];
 
-if (![presenceFromUser isEqualToString:myUsername]) {
-NSLog(@"presenceFromUser %@", presenceFromUser);
-if ([presenceType isEqualToString:@"available"]) {
+		if (![presenceFromUser isEqualToString:myUsername]) {
+			NSLog(@"presenceFromUser %@", presenceFromUser);
+			if ([presenceType isEqualToString:@"available"]) {
+				[_chatDelegate buddyWentOnline:[NSString stringWithFormat:@"%@@%@", presenceFromUser, @"gmail.com"]];
+			} else if ([presenceType isEqualToString:@"unavailable"]) {
+				[_chatDelegate buddyWentOffline:[NSString stringWithFormat:@"%@@%@", presenceFromUser, @"gmail.com"]];
+			}
+		}
+	}
 
-[_chatDelegate buddyWentOnline:[NSString stringWithFormat:@"%@@%@", presenceFromUser, @"gmail.com"]];
-
-} else if ([presenceType isEqualToString:@"unavailable"]) {
-
-[_chatDelegate buddyWentOffline:[NSString stringWithFormat:@"%@@%@", presenceFromUser, @"gmail.com"]];
-
-}
-
-}
-
-}
-
-- (void)xmppRoster:(XMPPRoster *)sender didReceiveRosterItem:(DDXMLElement *)item {
-NSLog(@"did receive roster item");
-}
-```
+	- (void)xmppRoster:(XMPPRoster *)sender didReceiveRosterItem:(DDXMLElement *)item {
+		NSLog(@"did receive roster item");
+	}
+	```
 1. Let's add a `LoginViewController`, you are free to add whatever you want in this ViewController, but your `connect` method should look like this:
-```Objective-C
-- (IBAction)connect:(id)sender {
-[[NSUserDefaults standardUserDefaults] setObject:self.loginTextField.text forKey:@"userID"];
-[[NSUserDefaults standardUserDefaults] setObject:self.passwordTextField.text forKey:@"userPassword"];
-[[NSUserDefaults standardUserDefaults] synchronize];
+	```Objective-C
+	- (IBAction)connect:(id)sender {
+		[[NSUserDefaults standardUserDefaults] setObject:self.loginTextField.text forKey:@"userID"];
+		[[NSUserDefaults standardUserDefaults] setObject:self.passwordTextField.text forKey:@"userPassword"];
+		[[NSUserDefaults standardUserDefaults] synchronize];
 
-if ([(AppDelegate *)[UIApplication sharedApplication].delegate connect]) {
-//sucess
-[self dismissViewControllerAnimated:true completion:nil];
-} else {
-//error
-}
-}
-```
-1. It's nice to be connected, but it'll be even better if we could get our buddies list. Create a `UITableViewController` subclass and in the .h file, add the `Chatdelegate` and an ivar ```NSMutableArray *onlineBuddies``` to store the buddy list
+		if ([(AppDelegate *)[UIApplication sharedApplication].delegate connect]) {
+			//sucess
+			[self dismissViewControllerAnimated:true completion:nil];
+		} else {
+			//error
+		}
+	}
+	```
+1. It's nice to be connected, but it'll be even better if we could get our buddies list. Create a `UITableViewController` subclass and in the .h file, add the `Chatdelegate` and an ivar ```Objective-C NSMutableArray *onlineBuddies``` to store the buddy list
 1. Now switch to your .m and set yourself as delegates for chat, then init your array in viewdidiload:
 ```Objective-C
 ((AppDelegate *)[[UIApplication sharedApplication] delegate]).chatDelegate = self;
