@@ -227,8 +227,8 @@ From now on you will have to open the xcworkspace file
 1. It's nice to be connected, but it'll be even better if we could get our buddies list. Create a ```UITableViewController``` subclass and in the .h file, add the ```Chatdelegate``` and an ivar ```NSMutableArray *onlineBuddies``` to store the buddy list
 1. Now switch to your .m and set yourself as delegates for chat, then init your array in viewdidiload:
 	```Objective-C
-	((AppDelegate *)[[UIApplication sharedApplication] delegate]).chatDelegate = self;
-	onlineBuddies = [NSMutableArray new];
+		((AppDelegate *)[[UIApplication sharedApplication] delegate]).chatDelegate = self;
+		onlineBuddies = [NSMutableArray new];
 	```
 1. Then in your viewwillappear, check if you are connected like so:
 	```Objective-C
