@@ -25,7 +25,8 @@
 From now on you will have to open the xcworkspace file
 8. Open your `AppDelegate.h` and add the XMPP import:
 
- `#import <XMPPFramework/XMPPFramework.h>`
+ ```Objective-C
+#import <XMPPFramework/XMPPFramework.h>```
 
 #### Finito ! Build & run to confirm everyting is setup properly before going further
 
@@ -34,10 +35,8 @@ From now on you will have to open the xcworkspace file
 ### II.XMPP Demo
 1. Add the following to your `AppDelegate.h`:  
 ```Objective-C
-#import <XMPPFramework/XMPPRoster.h>```
+#import <XMPPFramework/XMPPRoster.h>
  and
-
- ```Objective-C
 #import <XMPPFramework/XMPPRosterCoreDataStorage.h>```
 2. Add the chat protocol:  
 ```Objective-C
