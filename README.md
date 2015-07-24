@@ -33,11 +33,15 @@ From now on you will have to open the xcworkspace file
 
 ### II.XMPP Demo
 1. Add the following to your `AppDelegate.h`:  
-```#import <XMPPFramework/XMPPRoster.h>``` and
+```Objective-C
+#import <XMPPFramework/XMPPRoster.h>```
+ and
 
- ```#import <XMPPFramework/XMPPRosterCoreDataStorage.h>```
+ ```Objective-C
+#import <XMPPFramework/XMPPRosterCoreDataStorage.h>```
 2. Add the chat protocol:  
-```@protocol ChatDelegate
+```Objective-C
+@protocol ChatDelegate
 
 (void)buddyWentOnline:(NSString *)name;  
 
@@ -46,18 +50,22 @@ From now on you will have to open the xcworkspace file
 (void)didDisconnect;  
 @end```
 3. Add the following degegates:
-```XMPPRosterDelegate, XMPPStreamDelegate```
+```Objective-C
+XMPPRosterDelegate, XMPPStreamDelegate```
 4. Add XMPP properties:
-```@property (nonatomic, strong) XMPPStream *xmppStream;
+```Objective-C
+@property (nonatomic, strong) XMPPStream *xmppStream;
 @property (nonatomic, strong) XMPPRoster *xmppRoster;
 @property (nonatomic, strong) XMPPRosterCoreDataStorage *xmppRosterStorage;
 
 @property (nonatomic, weak) id <ChatDelegate> chatDelegate;```
 5. And the following puclic methods:
-```- (BOOL)connect;
+```Objective-C
+- (BOOL)connect;
 - (void)disconnect;```
 6. Switch to `AppDelegate.m` and add a new method called `setupStream`, witch will be in charge of configuring the stream, roster and its storage:
-```- (void)setupStream {
+```Objective-C
+- (void)setupStream {
 self.xmppStream = [XMPPStream new];
 self.xmppRosterStorage = [XMPPRosterCoreDataStorage new];	
 self.xmppRoster = [[XMPPRoster alloc] initWithRosterStorage:self.xmppRosterStorage];
@@ -68,7 +76,7 @@ self.xmppRoster = [[XMPPRoster alloc] initWithRosterStorage:self.xmppRosterStora
 }```
 	And call it in `- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions`
 7. Add the following methods to the private interface:
-```
+```Objective-C
 @interface AppDelegate ()
 
 - (void)setupStream;
