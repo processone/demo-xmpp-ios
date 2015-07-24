@@ -52,7 +52,7 @@ From now on you will have to open the xcworkspace file
 	(void)didDisconnect;  
 	@end
 	```
-1. Add the following delegates:
+1. Add the following delegates:  
 	```Objective-C
 	XMPPRosterDelegate, XMPPStreamDelegate
 	```
@@ -64,12 +64,12 @@ From now on you will have to open the xcworkspace file
 
 	@property (nonatomic, weak) id <ChatDelegate> chatDelegate;
 	```
-1. And the following public methods:
+1. And the following public methods:  
 	```Objective-C
 	- (BOOL)connect;
 	- (void)disconnect;
 	```
-1. Switch to `AppDelegate.m` and add a new method called `setupStream`, which will be in charge of configuring the stream, roster and its storage:
+1. Switch to `AppDelegate.m` and add a new method called `setupStream`, which will be in charge of configuring the stream, roster and its storage:  
 	```Objective-C
 	- (void)setupStream {
 		self.xmppStream = [XMPPStream new];
@@ -85,7 +85,7 @@ From now on you will have to open the xcworkspace file
 	```Objective-C
 	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	```
-1. Add the following methods to the private interface:
+1. Add the following methods to the private interface:  
 	```Objective-C
 	@interface AppDelegate ()
 
@@ -97,7 +97,7 @@ From now on you will have to open the xcworkspace file
 
 	@end
 	```
-1. Implement those methods. We assume you try connecting to Gtalk XMPP server, but feel free to use your own account.
+1. Implement those methods. We assume you try connecting to Gtalk XMPP server, but feel free to use your own account and change the domain / server.    
 	```Objective-C
 	- (void)goOnline {
 		XMPPPresence *presence = [XMPPPresence presence];
