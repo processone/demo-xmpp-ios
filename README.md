@@ -24,7 +24,9 @@
 ![Xcode setup](https://github.com/processone/demo-xmpp-ios/blob/master/Setup%20resources/Capture%20d’écran%202015-07-22%20à%2011.47.26.png?raw=true =350x)  
 From now on you will have to open the xcworkspace file
 8. Open your `AppDelegate.h` and add the XMPP import:
+
  `#import <XMPPFramework/XMPPFramework.h>`
+
 #### Finito ! Build & run to confirm everyting is setup properly before going further
 
 
@@ -32,6 +34,7 @@ From now on you will have to open the xcworkspace file
 ### II.XMPP Demo
 1. Add the following to your `AppDelegate.h`:  
 ```#import <XMPPFramework/XMPPRoster.h>``` and
+
  ```#import <XMPPFramework/XMPPRosterCoreDataStorage.h>```
 2. Add the chat protocol:  
 ```@protocol ChatDelegate
