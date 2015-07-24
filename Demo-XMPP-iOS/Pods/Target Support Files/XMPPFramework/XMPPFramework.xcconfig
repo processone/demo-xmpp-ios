@@ -1,0 +1,4 @@
+XMPPFRAMEWORK_CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES
+XMPPFRAMEWORK_HEADER_SEARCH_PATHS = $(SDKROOT)/usr/include/libxml2 $(SDKROOT)/usr/include/libresolv $(SDKROOT)/usr/include/libxml2 $(SDKROOT)/usr/include/libresolv
+XMPPFRAMEWORK_LIBRARY_SEARCH_PATHS = "$(PODS_ROOT)/XMPPFramework/Vendor/libidn" "$(PODS_ROOT)/XMPPFramework/Vendor/libidn"
+XMPPFRAMEWORK_OTHER_LDFLAGS = -l"idn" -l"resolv" -l"xml2" -framework "CoreData" -framework "CoreLocation" -framework "Foundation" -framework "SystemConfiguration" -framework "UIKit"
