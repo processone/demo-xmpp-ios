@@ -5,7 +5,7 @@
 
 **XMPPFramework** Basic client relying using [Cocoapods](https://cocoapods.org) package.
 
-### I.Project setup
+### I. Project setup
 1. Open Xcode and select *Create a new project*  
 ![Xcode setup](https://github.com/processone/demo-xmpp-ios/blob/master/Setup%20resources/Capture%20d’écran%202015-07-22%20à%2011.15.32.png?raw=true =350x)
 2. Select *Single View Application* in the project editor  
@@ -16,7 +16,7 @@
 ![Xcode setup](https://github.com/processone/demo-xmpp-ios/blob/master/Setup%20resources/Capture%20d’écran%202015-07-22%20à%2011.41.50.png?raw=true =350x)
 5. Navigate to your project directory and type `pod init` like so:  
 ![Xcode setup](https://github.com/processone/demo-xmpp-ios/blob/master/Setup%20resources/Capture%20d’écran%202015-07-22%20à%2011.42.02.png?raw=true =350x)
-6. Edit the newly created *Podile* by taping `emacs Podfile` it should look like this:  
+6. Edit the newly created *Podfile* by taping `emacs Podfile` (Feel free to use vim :)). It should look like this:  
 ![Xcode setup](https://github.com/processone/demo-xmpp-ios/blob/master/Setup%20resources/Capture%20d’écran%202015-07-24%20à%2015.16.11.png?raw=true =350x)  
 *Press ctrl+x, ctrl+s to save, then ctrl+x, ctrl+c to end editing*
 
@@ -33,7 +33,7 @@ From now on you will have to open the xcworkspace file
 
 
 
-### II.XMPP Demo
+### II. XMPP Demo
 1. Add the following to your `AppDelegate.h`:  
 	```Objective-C
 	#import <XMPPFramework/XMPPRoster.h>
