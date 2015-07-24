@@ -41,7 +41,7 @@ From now on you will have to open the xcworkspace file
 #import <XMPPFramework/XMPPRosterCoreDataStorage.h>
 
 ```
-2. Add the chat protocol:  
+1. Add the chat protocol:  
 ```Objective-C
 @protocol ChatDelegate
 
@@ -52,11 +52,11 @@ From now on you will have to open the xcworkspace file
 (void)didDisconnect;  
 @end
 ```
-3. Add the following degegates:
+1. Add the following degegates:
 ```Objective-C
 XMPPRosterDelegate, XMPPStreamDelegate
 ```
-4. Add XMPP properties:
+1. Add XMPP properties:
 ```Objective-C
 @property (nonatomic, strong) XMPPStream *xmppStream;
 @property (nonatomic, strong) XMPPRoster *xmppRoster;
@@ -64,12 +64,12 @@ XMPPRosterDelegate, XMPPStreamDelegate
 
 @property (nonatomic, weak) id <ChatDelegate> chatDelegate;
 ```
-5. And the following puclic methods:
+1. And the following puclic methods:
 ```Objective-C
 - (BOOL)connect;
 - (void)disconnect;
 ```
-6. Switch to `AppDelegate.m` and add a new method called `setupStream`, witch will be in charge of configuring the stream, roster and its storage:
+1. Switch to `AppDelegate.m` and add a new method called `setupStream`, witch will be in charge of configuring the stream, roster and its storage:
 ```Objective-C
 - (void)setupStream {
 self.xmppStream = [XMPPStream new];
@@ -82,7 +82,7 @@ self.xmppRoster = [[XMPPRoster alloc] initWithRosterStorage:self.xmppRosterStora
 }
 ```
 	And call it in `- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions`
-7. Add the following methods to the private interface:
+1. Add the following methods to the private interface:
 ```Objective-C
 @interface AppDelegate ()
 
@@ -94,7 +94,7 @@ self.xmppRoster = [[XMPPRoster alloc] initWithRosterStorage:self.xmppRosterStora
 
 @end
 ```
-8. Implement those methods:
+1. Implement those methods:
 ```Objective-C
 - (void)goOnline {
 XMPPPresence *presence = [XMPPPresence presence]; // type="available" is implicit
@@ -156,8 +156,8 @@ return YES;
 [self.xmppStream disconnect];
 }
 ```
-9. Call `[self connect]` in `- (void)applicationDidBecomeActive:(UIApplication *)application` and `[self disconnect]` in `- (void)applicationWillResignActive:(UIApplication *)application`
-10. Now the last but not the least, implement the xmpp delegates:
+1. Call `[self connect]` in `- (void)applicationDidBecomeActive:(UIApplication *)application` and `[self disconnect]` in `- (void)applicationWillResignActive:(UIApplication *)application`
+1. Now the last but not the least, implement the xmpp delegates:
 ```Objective-C
 - (void)xmppStreamDidConnect:(XMPPStream *)sender {
 
@@ -225,7 +225,7 @@ if ([presenceType isEqualToString:@"available"]) {
 NSLog(@"did receive roster item");
 }
 ```
-11. Let's add a `LoginViewController`, you are free to add whatever you want in this ViewController, but your `connect` method should look like this:
+1. Let's add a `LoginViewController`, you are free to add whatever you want in this ViewController, but your `connect` method should look like this:
 ```Objective-C
 - (IBAction)connect:(id)sender {
 [[NSUserDefaults standardUserDefaults] setObject:self.loginTextField.text forKey:@"userID"];
@@ -240,13 +240,13 @@ if ([(AppDelegate *)[UIApplication sharedApplication].delegate connect]) {
 }
 }
 ```
-12. It's nice to be connected, but it'll be even better if we could get our buddies list. Create a `UITableViewController` subclass and in the .h file, add the `Chatdelegate` and an ivar ```NSMutableArray *onlineBuddies``` to store the buddy list
-13. Now switch to your .m and set yourself as delegates for chat, then init your array in viewdidiload:
+1. It's nice to be connected, but it'll be even better if we could get our buddies list. Create a `UITableViewController` subclass and in the .h file, add the `Chatdelegate` and an ivar ```NSMutableArray *onlineBuddies``` to store the buddy list
+1. Now switch to your .m and set yourself as delegates for chat, then init your array in viewdidiload:
 ```Objective-C
 ((AppDelegate *)[[UIApplication sharedApplication] delegate]).chatDelegate = self;
 onlineBuddies = [NSMutableArray new];
 ```
-14. Then in your viewwillappear, check if you are connected like so:
+1. Then in your viewwillappear, check if you are connected like so:
 ```Objective-C
 if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userID"]) {
 if ([((AppDelegate *)[[UIApplication sharedApplication] delegate]) connect]) {
@@ -258,7 +258,7 @@ self.title = [[[((AppDelegate *)[[UIApplication sharedApplication] delegate]) xm
 [self performSegueWithIdentifier:@"Home.To.Login" sender:self];
 }
 ```
-15. After that implement the chat delegates methods:
+1. After that implement the chat delegates methods:
 ```Objective-C
 - (void)buddyWentOnline:(NSString *)name {
 if (![onlineBuddies containsObject:name]) {
@@ -277,7 +277,7 @@ if (![onlineBuddies containsObject:name]) {
 [self.tableView reloadData];
 }
 ```
-16. The rest is pretty straightforward, you need to implement the `UITableView’s Delegates`:
+1. The rest is pretty straightforward, you need to implement the `UITableView’s Delegates`:
 ```Objective-C
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
@@ -300,7 +300,7 @@ return [onlineBuddies count];
 return 1;
 }
 ```
-17. Now if you want to send a message when the user tap on a row, implement this method:
+1. Now if you want to send a message when the user tap on a row, implement this method:
 ```Objective-C
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
@@ -321,6 +321,6 @@ XMPPMessage* msg = [[XMPPMessage alloc] initWithType:@"chat" to:senderJid];
 [self presentViewController:alertController animated:true completion:nil];	
 }
 ```
-18. Build, run and start chatting with your friends !
+1. Build, run and start chatting with your friends !
 
 #### You can also download the sample project [here](https://github.com/processone/demo-xmpp-ios/archive/master.zip)
