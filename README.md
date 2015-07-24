@@ -228,8 +228,8 @@ From now on you will have to open the xcworkspace file
 1. Now switch to your .m and set yourself as delegates for chat, then init your array in viewdidiload:
 
 	```Objective-C
-		((AppDelegate *)[[UIApplication sharedApplication] delegate]).chatDelegate = self;
-		onlineBuddies = [NSMutableArray new];
+	((AppDelegate *)[[UIApplication sharedApplication] delegate]).chatDelegate = self;
+	onlineBuddies = [NSMutableArray new];
 	```
 1. Then in your viewwillappear, check if you are connected like so:
 
