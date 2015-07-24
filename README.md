@@ -39,8 +39,8 @@ From now on you will have to open the xcworkspace file
 #import <XMPPFramework/XMPPRoster.h>
  and
 #import <XMPPFramework/XMPPRosterCoreDataStorage.h>
-```
 
+```
 2. Add the chat protocol:  
 ```Objective-C
 @protocol ChatDelegate
@@ -52,7 +52,6 @@ From now on you will have to open the xcworkspace file
 (void)didDisconnect;  
 @end
 ```
-
 3. Add the following degegates:
 ```Objective-C
 XMPPRosterDelegate, XMPPStreamDelegate
