@@ -52,7 +52,7 @@ From now on you will have to open the xcworkspace file
 	(void)didDisconnect;  
 	@end
 	```
-1. Add the following degegates:
+1. Add the following delegates:
 	```Objective-C
 	XMPPRosterDelegate, XMPPStreamDelegate
 	```
@@ -64,12 +64,12 @@ From now on you will have to open the xcworkspace file
 
 	@property (nonatomic, weak) id <ChatDelegate> chatDelegate;
 	```
-1. And the following puclic methods:
+1. And the following public methods:
 	```Objective-C
 	- (BOOL)connect;
 	- (void)disconnect;
 	```
-1. Switch to `AppDelegate.m` and add a new method called `setupStream`, witch will be in charge of configuring the stream, roster and its storage:
+1. Switch to `AppDelegate.m` and add a new method called `setupStream`, which will be in charge of configuring the stream, roster and its storage:
 	```Objective-C
 	- (void)setupStream {
 		self.xmppStream = [XMPPStream new];
@@ -97,7 +97,7 @@ From now on you will have to open the xcworkspace file
 
 	@end
 	```
-1. Implement those methods:
+1. Implement those methods. We assume you try connecting to Gtalk XMPP server, but feel free to use your own account.
 	```Objective-C
 	- (void)goOnline {
 		XMPPPresence *presence = [XMPPPresence presence];
@@ -209,7 +209,7 @@ From now on you will have to open the xcworkspace file
 		NSLog(@"did receive roster item");
 	}
 	```
-1. Let's add a `LoginViewController`, you are free to add whatever you want in this ViewController, but your `connect` method should look like this:
+1. Let's add a `LoginViewController`. You are free to add whatever you want in this ViewController, but your `connect` method should look like this:
 	```Objective-C
 	- (IBAction)connect:(id)sender {
 		[[NSUserDefaults standardUserDefaults] setObject:self.loginTextField.text forKey:@"userID"];
@@ -225,13 +225,13 @@ From now on you will have to open the xcworkspace file
 	}
 	```
 1. It's nice to be connected, but it'll be even better if we could get our buddies list. Create a ```UITableViewController``` subclass and in the .h file, add the ```Chatdelegate``` and an ivar ```NSMutableArray *onlineBuddies``` to store the buddy list
-1. Now switch to your .m and set yourself as delegates for chat, then init your array in viewdidiload:
+1. Now switch to your .m and set yourself as delegates for chat, then init your array in `viewDidLoad`:
 
 	```Objective-C
 	((AppDelegate *)[[UIApplication sharedApplication] delegate]).chatDelegate = self;
 	onlineBuddies = [NSMutableArray new];
 	```
-1. Then in your viewwillappear, check if you are connected like so:
+1. Then in your viewWillAppear, check if you are connected like with:
 
 	```Objective-C
 	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userID"]) {
@@ -243,7 +243,7 @@ From now on you will have to open the xcworkspace file
 		[self performSegueWithIdentifier:@"Home.To.Login" sender:self];
 	}
 	```
-1. After that implement the chat delegates methods:
+1. After that, implement the chat delegates methods:
 	```Objective-C
 	- (void)buddyWentOnline:(NSString *)name {
 		if (![onlineBuddies containsObject:name]) {
@@ -262,7 +262,7 @@ From now on you will have to open the xcworkspace file
 		[self.tableView reloadData];
 	}
 	```
-1. The rest is pretty straightforward, you need to implement the `UITableView’s Delegates`:
+1. The rest is pretty straightforward, you need to implement the `UITableView`’s delegates:
 	```Objective-C
 	- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 		static NSString *CellIdentifier = @"cellIdentifier";
@@ -282,7 +282,7 @@ From now on you will have to open the xcworkspace file
 		return 1;
 	}
 	```
-1. Now if you want to send a message when the user tap on a row, implement this method:
+1. Now, if you want to send a message when the user tap on a row, implement this method:
 	```Objective-C
 	- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 		UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Warning !" message:@"It will send Yo! to the recipient, continue ?" preferredStyle:UIAlertControllerStyleAlert];
