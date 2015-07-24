@@ -55,6 +55,7 @@ From now on you will have to open the xcworkspace file
 1. Add the following delegates:  
 	```Objective-C
 	XMPPRosterDelegate, XMPPStreamDelegate
+	
 	```
 1. Add XMPP properties:
 	```Objective-C
@@ -68,6 +69,7 @@ From now on you will have to open the xcworkspace file
 	```Objective-C
 	- (BOOL)connect;
 	- (void)disconnect;
+
 	```
 1. Switch to `AppDelegate.m` and add a new method called `setupStream`, which will be in charge of configuring the stream, roster and its storage:  
 	```Objective-C
