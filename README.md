@@ -11,7 +11,7 @@
 2. Select *Single View Application* in the project editor  
 ![Xcode setup](https://github.com/processone/demo-xmpp-ios/blob/master/Setup%20resources/Capture%20d’écran%202015-07-22%20à%2011.15.44.png?raw=true =350x)
 3. Fill all the required fields and then project location  
-![Xcode setup](https://github.com/processone/demo-xmpp-ios/blob/master/Setup%20resources/Swift_lang?raw=true =350x)
+![Xcode setup](https://github.com/processone/demo-xmpp-ios/blob/master/Setup%20resources/Swift_lang.png?raw=true =350x)
 4. Now quit Xcode, and open the terminal app    
 ![Xcode setup](https://github.com/processone/demo-xmpp-ios/blob/master/Setup%20resources/Capture%20d’écran%202015-07-22%20à%2011.41.50.png?raw=true =350x)
 5. Navigate to your project directory and type `pod init` like so:  
@@ -21,7 +21,7 @@
 *Press ctrl+x, ctrl+s to save, then ctrl+x, ctrl+c to end editing*
 
 7. Now Type `pod install` and wait for cocoapod to finish  
-![Xcode setup](https://github.com/processone/demo-xmpp-ios/blob/master/Setup%20resources/XMPPFramework_Swift_lang?raw=true =350x)  
+![Xcode setup](https://github.com/processone/demo-xmpp-ios/blob/master/Setup%20resources/XMPPFramework_Swift_lang.png?raw=true =350x)  
 From now on you will have to open the xcworkspace file
 8. Open your `AppDelegate.h` and add the XMPP import:
 
