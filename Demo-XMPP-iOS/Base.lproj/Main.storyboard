@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8173.3" systemVersion="15A279b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="XeC-sx-Siq">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8142"/>
+    </dependencies>
+    <scenes>
+        <!--Login View Controller-->
+        <scene sceneID="Ghr-8i-MTe">
+            <objects>
+                <viewController id="VcU-2K-L4f" customClass="LoginViewController" customModule="testSWIFTXMPPF" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="EfZ-t4-Fd3"/>
+                        <viewControllerLayoutGuide type="bottom" id="za6-va-Q4O"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="67W-Hr-3fV">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Login" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h7O-tk-O91">
+                                <rect key="frame" x="252" y="215" width="97" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bH6-Dk-91N">
+                                <rect key="frame" x="252" y="266" width="97" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q9a-SV-o5n">
+                                <rect key="frame" x="277" y="325" width="38" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Login"/>
+                                <connections>
+                                    <action selector="login:" destination="VcU-2K-L4f" eventType="touchUpInside" id="yTo-9Z-i7i"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="hyt-gu-rIG">
+                        <barButtonItem key="leftBarButtonItem" title="Item" style="done" systemItem="done" id="q91-ZQ-ybr">
+                            <connections>
+                                <action selector="done:" destination="VcU-2K-L4f" id="tsN-Ya-4t5"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="loginTextField" destination="h7O-tk-O91" id="OBy-yo-D1q"/>
+                        <outlet property="passwordTextField" destination="bH6-Dk-91N" id="ayz-LR-dfa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xgO-W3-LQM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2605" y="-91"/>
+        </scene>
+        <!--Roster Table View Controller-->
+        <scene sceneID="HcY-Um-4G5">
+            <objects>
+                <tableViewController id="4YM-fs-OUD" customClass="RosterTableViewController" customModule="testSWIFTXMPPF" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="4Yb-fj-sr9">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="CellIdentifier" id="BKb-dX-OL8">
+                                <rect key="frame" x="0.0" y="86" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BKb-dX-OL8" id="a4q-n8-z97">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <animations/>
+                                </tableViewCellContentView>
+                                <animations/>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="4YM-fs-OUD" id="3sm-jv-WSj"/>
+                            <outlet property="delegate" destination="4YM-fs-OUD" id="r9A-iJ-DeF"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="U1G-oA-bbO">
+                        <barButtonItem key="leftBarButtonItem" title="Login" id="Uso-iJ-MCA">
+                            <connections>
+                                <segue destination="aC3-Ea-Ar5" kind="presentation" identifier="Home.To.Login" id="gZf-Gf-jSR"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="y92-TM-ftj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1540" y="686"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="d6M-Ok-xJj">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="XeC-sx-Siq" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="RlY-fb-0p0">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="4YM-fs-OUD" kind="relationship" relationship="rootViewController" id="V1w-oV-xOa"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nHT-wC-Ah2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="728" y="686"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Qm2-jJ-EQv">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="aC3-Ea-Ar5" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qvf-FC-8Fa">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="VcU-2K-L4f" kind="relationship" relationship="rootViewController" id="GGi-Zj-mlz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tkB-ZT-tLv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1793" y="-91"/>
+        </scene>
+    </scenes>
+</document>
