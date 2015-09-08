@@ -33,22 +33,42 @@ From now on you will have to open the xcworkspace file
 
 
 
+<<<<<<< HEAD
 ### II.XMPP Demo
 1. Add the chat protocol at the top of your `AppDelegate`: 
-	```Swift
-	protocol ChatDelegate {
-		func buddyWentOnline(name: String)
-		func buddyWentOffline(name: String)
-		func didDisconnect()
-	}  
+=======
+### II. XMPP Demo
+1. Add the following to your `AppDelegate.h`:  
+	```Objective-C
+	#import <XMPPFramework/XMPPRoster.h>
+	and
+	#import <XMPPFramework/XMPPRosterCoreDataStorage.h>
+
+	```
+1. Add the chat protocol:  
+>>>>>>> 36bead9a6395449c6108dc9db22688cd09af572d
+	```Objective-C
+	@protocol ChatDelegate
+
+	(void)buddyWentOnline:(NSString *)name;  
+
+	(void)buddyWentOffline:(NSString *)name;  
+
+	(void)didDisconnect;  
 	@end
 	```
+<<<<<<< HEAD
 1. Add the following degegates:
 	```Swift
+=======
+1. Add the following delegates:  
+	```Objective-C
+>>>>>>> 36bead9a6395449c6108dc9db22688cd09af572d
 	XMPPRosterDelegate, XMPPStreamDelegate
 	
 	```
 1. Add XMPP properties:
+<<<<<<< HEAD
 	```Swift
 		var delegate:ChatDelegate! = nil
 		let xmppStream = XMPPStream()
@@ -80,6 +100,79 @@ From now on you will have to open the xcworkspace file
 			if domain == "gmail.com" || domain == "gtalk.com" || domain == "talk.google.com" {
 				let priority = DDXMLElement.elementWithName("priority", stringValue: "24") as! DDXMLElement
 				presence.addChild(priority)
+=======
+	```Objective-C
+	@property (nonatomic, strong) XMPPStream *xmppStream;
+	@property (nonatomic, strong) XMPPRoster *xmppRoster;
+	@property (nonatomic, strong) XMPPRosterCoreDataStorage *xmppRosterStorage;
+
+	@property (nonatomic, weak) id <ChatDelegate> chatDelegate;
+	```
+1. And the following public methods:  
+	```Objective-C
+	- (BOOL)connect;
+	- (void)disconnect;
+
+	```
+1. Switch to `AppDelegate.m` and add a new method called `setupStream`, which will be in charge of configuring the stream, roster and its storage:  
+	```Objective-C
+	- (void)setupStream {
+		self.xmppStream = [XMPPStream new];
+		self.xmppRosterStorage = [XMPPRosterCoreDataStorage new];	
+		self.xmppRoster = [[XMPPRoster alloc] initWithRosterStorage:self.xmppRosterStorage];
+
+		[self.xmppRoster activate:self.xmppStream];
+		[self.xmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
+		[self.xmppRoster addDelegate:self delegateQueue:dispatch_get_main_queue()];
+	}
+	```
+	And call it in
+	```Objective-C
+	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+	```
+1. Add the following methods to the private interface:  
+	```Objective-C
+	@interface AppDelegate ()
+
+	- (void)setupStream;
+	- (void)goOnline;
+	- (void)goOffline;
+	- (BOOL)connect;
+	- (void)disconnect;
+
+	@end
+	```
+1. Implement those methods. We assume you try connecting to Gtalk XMPP server, but feel free to use your own account and change the domain / server.    
+	```Objective-C
+	- (void)goOnline {
+		XMPPPresence *presence = [XMPPPresence presence];
+		NSString *domain = [self.xmppStream.myJID domain];
+
+		//Google set their presence priority to 24, so we do the same to be compatible.
+		if([domain isEqualToString:@"gmail.com"] || [domain isEqualToString:@"gtalk.com"] || [domain isEqualToString:@"talk.google.com"]) {
+			NSXMLElement *priority = [NSXMLElement elementWithName:@"priority" stringValue:@"24"]; 
+			[presence addChild:priority];
+		}
+		[[self xmppStream] sendElement:presence];
+	}
+
+	- (void)goOffline {
+		XMPPPresence *presence = [XMPPPresence presenceWithType:@"unavailable"];
+		[[self xmppStream] sendElement:presence];
+	}
+
+	- (BOOL)connect {
+		if (!self.xmppStream.isConnected) {
+			NSString *jabberID = [[NSUserDefaults standardUserDefaults] stringForKey:@"userID"];
+			NSString *myPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"userPassword"];
+
+			if (![self.xmppStream isDisconnected]) {
+				return YES;
+			}
+
+			if (jabberID == nil || myPassword == nil) {
+				return NO;
+>>>>>>> 36bead9a6395449c6108dc9db22688cd09af572d
 			}
 			xmppStream.sendElement(presence)
 		}
@@ -168,6 +261,7 @@ From now on you will have to open the xcworkspace file
 			print("Did receive Roster item")
 		}
 	```
+<<<<<<< HEAD
 1. Let's add a `LoginViewController`, you are free to add whatever you want in this ViewController, but your `login` method should look like this:
 	```Swift
 		@IBAction func login(sender: AnyObject) {
@@ -179,10 +273,29 @@ From now on you will have to open the xcworkspace file
 			if appDelegate.connect() {
 				dismissViewControllerAnimated(true, completion: nil)
 			}
+=======
+1. Let's add a `LoginViewController`. You are free to add whatever you want in this ViewController, but your `connect` method should look like this:
+	```Objective-C
+	- (IBAction)connect:(id)sender {
+		[[NSUserDefaults standardUserDefaults] setObject:self.loginTextField.text forKey:@"userID"];
+		[[NSUserDefaults standardUserDefaults] setObject:self.passwordTextField.text forKey:@"userPassword"];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+
+		if ([(AppDelegate *)[UIApplication sharedApplication].delegate connect]) {
+			//sucess
+			[self dismissViewControllerAnimated:true completion:nil];
+		} else {
+			//Handle error
+>>>>>>> 36bead9a6395449c6108dc9db22688cd09af572d
 		}
 	```
+<<<<<<< HEAD
 1. It's nice to be connected, but it'll be even better if we could get our buddies list. Create a ```UITableViewController``` subclass and add ```Chatdelegate``` and an ivar ```var onlineBuddies = NSMutableArray()``` to store the buddy list
 1. Now set yourself as delegate for chat, then init your array in viewDidLoad:
+=======
+1. It's nice to be connected, but it'll be even better if we could get our buddies list. Create a ```UITableViewController``` subclass and in the .h file, add the ```Chatdelegate``` and an ivar ```NSMutableArray *onlineBuddies``` to store the buddy list
+1. Now switch to your .m and set yourself as delegates for chat, then init your array in `viewDidLoad`:
+>>>>>>> 36bead9a6395449c6108dc9db22688cd09af572d
 
 	```Swift
 		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -193,7 +306,7 @@ From now on you will have to open the xcworkspace file
 			appDelegate.delegate = self
 		}
 	```
-1. Then in your viewwillappear, check if you are connected like so:
+1. Then in your viewWillAppear, check if you are connected like with:
 
 	```Swift
 	override func viewDidAppear(animated: Bool) {
@@ -207,12 +320,21 @@ From now on you will have to open the xcworkspace file
 		}
 	}
 	```
+<<<<<<< HEAD
 1. After that implement the chat delegates methods:
 	```Swift
 	func buddyWentOnline(name: String) {
 		if !onlineBuddies.containsObject(name) {
 			onlineBuddies.addObject(name)
 			tableView.reloadData()
+=======
+1. After that, implement the chat delegates methods:
+	```Objective-C
+	- (void)buddyWentOnline:(NSString *)name {
+		if (![onlineBuddies containsObject:name]) {
+			[onlineBuddies addObject:name];
+			[self.tableView reloadData];
+>>>>>>> 36bead9a6395449c6108dc9db22688cd09af572d
 		}
 	}
 
@@ -226,10 +348,17 @@ From now on you will have to open the xcworkspace file
 		tableView.reloadData()
 	}
 	```
+<<<<<<< HEAD
 1. The rest is pretty straightforward, you need to implement the `UITableView’s Delegates`:
 	```Swift
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("CellIdentifier", forIndexPath: indexPath)
+=======
+1. The rest is pretty straightforward, you need to implement the `UITableView`’s delegates:
+	```Objective-C
+	- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+		static NSString *CellIdentifier = @"cellIdentifier";
+>>>>>>> 36bead9a6395449c6108dc9db22688cd09af572d
 
 		cell.textLabel?.text = onlineBuddies[indexPath.row] as? String
 
@@ -244,6 +373,7 @@ From now on you will have to open the xcworkspace file
 		return 1
 	}
 	```
+<<<<<<< HEAD
 1. Now if you want to send a message when the user tap on a row, implement this method:
 	```Swift
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -262,6 +392,26 @@ From now on you will have to open the xcworkspace file
 			self.appDelegate.xmppStream.sendElement(msg)
 		}))
 		presentViewController(alertController, animated: true, completion: nil)
+=======
+1. Now, if you want to send a message when the user tap on a row, implement this method:
+	```Objective-C
+	- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+		UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Warning !" message:@"It will send Yo! to the recipient, continue ?" preferredStyle:UIAlertControllerStyleAlert];
+		[alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+		[alertController dismissViewControllerAnimated:true completion:nil];
+		}]];
+		[alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+		NSString *message = @"Yo!";
+
+		XMPPJID *senderJid = [XMPPJID jidWithString:[onlineBuddies objectAtIndex:indexPath.row]];
+		XMPPMessage* msg = [[XMPPMessage alloc] initWithType:@"chat" to:senderJid];
+		[msg addBody:message];
+
+		[((AppDelegate *)[[UIApplication sharedApplication] delegate]).xmppStream sendElement:msg];
+		}]];
+
+		[self presentViewController:alertController animated:true completion:nil];	
+>>>>>>> 36bead9a6395449c6108dc9db22688cd09af572d
 	}
 	```
 1. Build, run and start chatting with your friends !
